@@ -6,7 +6,7 @@
 /*   By: udelorme <udelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/17 15:50:39 by udelorme          #+#    #+#             */
-/*   Updated: 2015/12/18 18:37:14 by udelorme         ###   ########.fr       */
+/*   Updated: 2015/12/21 07:43:25 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@
 # define ERR_RET -1
 
 # include <unistd.h>
+# include <string.h>
 # include <fcntl.h>
 # include "libft/libft.h"
 
 typedef struct	s_file
 {
 	int				fd;
-	int				index;
+	int				pos;
 	int				readed;
+	int				alrd_read;
 	char			buf[BUFF_SIZE];
 	struct s_file	*next;
 }				t_file;
