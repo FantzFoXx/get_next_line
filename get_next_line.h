@@ -6,7 +6,7 @@
 /*   By: udelorme <udelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/17 15:50:39 by udelorme          #+#    #+#             */
-/*   Updated: 2015/12/21 07:43:25 by udelorme         ###   ########.fr       */
+/*   Updated: 2015/12/21 11:14:20 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ typedef struct	s_file
 	int				pos;
 	int				readed;
 	int				alrd_read;
-	char			buf[BUFF_SIZE];
+	char			tmp[BUFF_SIZE];
+	char			*buf;
 	struct s_file	*next;
 }				t_file;
 

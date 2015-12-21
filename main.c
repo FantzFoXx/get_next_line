@@ -16,7 +16,7 @@ int		main(void)
 	ch[1] = 'B';
 	ch[2] = 'C';
 	ch[3] = 'D';
-	printf("%s\n", ch);
+	//printf("%s\n", ch);
 	fd = open("test", O_RDONLY);
 	fd2 = open("test2", O_RDONLY);
 
@@ -25,8 +25,10 @@ int		main(void)
 		if (get_next_line(fd, &ch) != -1)
 		{
 			ft_putendl(ch);
-			get_next_line(fd2, &ch2);
-			ft_putendl(ch2);
+			get_next_line(fd, &ch);
+			ft_putendl(ch);
+			get_next_line(fd, &ch);
+			ft_putendl(ch);
 		}
 		else
 			ft_putendl("error");

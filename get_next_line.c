@@ -6,12 +6,13 @@
 /*   By: udelorme <udelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/17 15:32:02 by udelorme          #+#    #+#             */
-/*   Updated: 2015/12/21 07:43:26 by udelorme         ###   ########.fr       */
+/*   Updated: 2015/12/21 11:14:16 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 static t_file	*lst_newfile(int fd)
 {
@@ -24,7 +25,8 @@ static t_file	*lst_newfile(int fd)
 	new->readed = 0;
 	new->pos = 0;
 	new->alrd_read = 0;
-	ft_memset(new->buf, 0, BUFF_SIZE);
+	new->buf = ft_strnew(1);
+	ft_memset(new->tmp, 0, BUFF_SIZE);
 	new->next = NULL;
 	return (new);
 }
@@ -46,17 +48,17 @@ static void		lst_pushfile(t_file **file, int fd)
 	}
 }
 
-t_file			*find_file(t_file *file, int fd)
+t_file			*find_file(t_file **file, int fd)
 {
 	t_file *index;
 
-	index = file;
+	index = *file;
 	if (index)
 		while (index->next && fd != index->fd)
 			index = index->next;
 	if (!index)
 	{
-		lst_pushfile(&file, fd);
+		lst_pushfile(file, fd);
 		return (find_file(file, fd));
 	}
 
@@ -79,9 +81,11 @@ char			**realloc_buffer(char *buf, char **dest, size_t size)
 		tmp[i] = dest[0][i];
 		i++;
 	}
+	ft_nbrtrace(size);
 	ft_strncat(tmp, buf, size);
 	free(*dest);
 	*dest = tmp;
+	//ft_trace(*dest);
 	return (dest);
 }
 
@@ -103,24 +107,28 @@ int				get_next_line(int const fd, char **line)
 
 	if (fd < 0 || !line)
 		return (ERR_RET);
-	current = find_file(file, fd);
+	current = find_file(&file, fd);
 	*line = ft_strnew(1);
-	while (((current->readed = read(fd, current->buf, BUFF_SIZE)) && current->readed != (-1 ^ 0)))
+	while ((current->readed = read(fd, current->tmp, BUFF_SIZE)) && current->readed != (-1 ^ 0))
 	{
-		current->buf[current->readed] = 0;
-		i = 0;
-		while (current->buf[current->pos] != 0)
+		current->tmp[current->readed] = 0;
+		realloc_buffer(current->tmp, &current->buf, BUFF_SIZE);
+	}
+	i = 0;
+	while (current->buf[current->pos] != 0)
+	{
+			//ft_putchar(current->buf[current->pos]);
+		if (current->buf[current->pos] == '\n' && i < current->alrd_read)
+			i++;
+		if (i == current->alrd_read)
 		{
-			if (current->buf[current->pos] == '\n' && i < current->alrd_read)
-				i++;
-			else if (i == current->alrd_read)
-			{
-				line = realloc_buffer(&current->buf[current->pos], line, count_no_occ(current->buf, '\n'));
-				current->alrd_read++;
-				return (1);
-			}
-			current->pos++;
+			ft_nbrtrace(current->pos);
+			line = realloc_buffer(&current->buf[current->pos], line, count_no_occ(&current->buf[current->pos], '\n'));
+			current->alrd_read++;
+		current->pos++;
+			return (1);
 		}
+		current->pos++;
 	}
 	if (current->readed == -1)
 		return (-1);
