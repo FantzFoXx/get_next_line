@@ -9,13 +9,7 @@ int		main(int argc, char **argv)
 	int ret;
 	ret = 0;
 
-	ch = ft_strnew(5);
-
-	ch[0] = 'A';
-	ch[1] = 'B';
-	ch[2] = 'C';
-	ch[3] = 'D';
-	//printf("%s\n", ch);
+	ch = NULL;
 	fd = 0;
 	if (argc == 2)
 	{
@@ -23,7 +17,7 @@ int		main(int argc, char **argv)
 	}
 	//fd2 = open("test2", O_RDONLY);
 
-	ft_nbrtrace(fd);
+	//ft_nbrtrace(fd);
 
 	if (fd != -1)
 	{
