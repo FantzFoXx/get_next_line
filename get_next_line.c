@@ -94,7 +94,7 @@ char			*extract_line(char **buffer)
 	char	*new_buf;
 
 	size_line = count_no_occ(*buffer, '\n');
-	ft_nbrtrace(size_line);
+	//ft_nbrtrace(size_line);
 	line = ft_strnew(size_line);
 	i = -1;
 	while (++i < size_line)

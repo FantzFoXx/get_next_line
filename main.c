@@ -21,36 +21,10 @@ int		main(int argc, char **argv)
 
 	if (fd != -1)
 	{
-		if ((ret = get_next_line(fd, &ch)) && ret != -1)
+		while ((ret = get_next_line(fd, &ch)) && ret != ( 0 ^ -1))
 		{
-			ft_nbrtrace(ret);
 			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-			ft_nbrtrace(get_next_line(fd, &ch));
-			ft_putendl(ch);
-
 		}
-		else
-			ft_putendl("error");
 	}
 	else
 		ft_putendl("error");
