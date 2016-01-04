@@ -25,7 +25,7 @@ typedef struct	s_file
 {
 	int				fd;
 	int				pos;
-	int				readed;
+	int				read;
 	int				alrd_read;
 	char			tmp[BUFF_SIZE];
 	char			*buf;

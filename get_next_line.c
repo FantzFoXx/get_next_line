@@ -22,7 +22,7 @@ static t_file	*lst_newfile(int fd)
 	if (!new)
 		return (NULL);
 	new->fd = fd;
-	new->readed = 0;
+	new->read = 0;
 	new->pos = 0;
 	new->alrd_read = 0;
 	new->buf = ft_strnew(0);
@@ -65,52 +65,6 @@ t_file			*find_file(t_file **file, int fd)
 	return (index);
 }
 
-char			*read_file(char *buf, char *dest, size_t size)
-{
-	char	*tmp;
-	int		i;
-	size_t	total;
-
-
-	total = ft_strlen(dest) + size;
-	tmp = ft_strnew(total);
-	if (!tmp)
-		return (NULL);
-	i = 0;
-	while (dest[i] != 0)
-	{
-		ft_putchar(dest[i]);
-		tmp[i] = dest[i];
-		i++;
-	}
-	ft_strncat(tmp, buf, size);
-	//free(dest);
-	return (tmp);
-}
-
-char			**realloc_buffer(char *buf, char **dest, size_t size)
-{
-	char	*tmp;
-	int		i;
-	size_t	total;
-
-
-	total = ft_strlen(*dest) + size;
-	tmp = ft_strnew(total);
-	if (!tmp)
-		return (NULL);
-	i = 0;
-	while (dest[0][i] != 0)
-	{
-		tmp[i] = dest[0][i];
-		i++;
-	}
-	ft_strncat(tmp, buf, size);
-	free(*dest);
-	*dest = tmp;
-	return (dest);
-}
-
 size_t			count_no_occ(char *s, char c)
 {
 	int i;
@@ -121,33 +75,67 @@ size_t			count_no_occ(char *s, char c)
 	return (i);
 }
 
+int				is_return(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i] != 0)
+		if (str[i] == '\n')
+			return (1);
+	return (0);
+}
+
+char			*extract_line(char **buffer)
+{
+	int		i;
+	int		size_line;
+	char	*line;
+	char	*new_buf;
+
+	size_line = count_no_occ(*buffer, '\n');
+	ft_nbrtrace(size_line);
+	line = ft_strnew(size_line);
+	i = -1;
+	while (++i < size_line)
+		line[i] = buffer[0][i];
+	new_buf = ft_strsub(*buffer, size_line + 1, (ft_strlen(*buffer) - size_line));
+	free(*buffer);
+	*buffer = new_buf;
+	return (line);
+}
+
+void			realloc_buffer(char **s1, char *s2)
+{
+	char *new;
+
+	new = ft_strjoin(*s1, s2);
+	free(*s1);
+	*s1 = new;
+}
+
 int				get_next_line(int const fd, char **line)
 {
 	static t_file	*file = NULL;
-	t_file			*current;
-	int				i;
+	t_file			*cur;
 
-	if (fd <= 0 || !line)
+	if (fd < 0 || !line)
 		return (ERR_RET);
-	current = find_file(&file, fd);
-	*line = ft_strnew(1);
-	//printf("%p\n", current->buf);
-	while ((current->readed = read(fd, current->tmp, BUFF_SIZE)) && current->readed != (-1 ^ 0))
+	cur = find_file(&file, fd);
+	if (!is_return(cur->buf))
+		while ((cur->read = read(cur->fd, cur->tmp, BUFF_SIZE)) && cur->read != (0 ^ -1))
+		{
+			realloc_buffer(&cur->buf, cur->tmp);
+			if (is_return(cur->tmp))
+				break ;
+		}
+	if (cur->read == -1)
+		return (ERR_RET);
+	if (ft_strlen(cur->buf) != 0)
 	{
-		current->tmp[current->readed] = 0;
-		current->buf = read_file(current->tmp, current->buf, current->readed);
-		ft_trace("pass");
-	}
-	if (current->readed == -1)
-		return (-1);
-	i = 0;
-	while (current->buf[current->pos] != 0)
-	{
-		current->alrd_read = count_no_occ(&current->buf[current->pos], '\n');
-		line = realloc_buffer(&current->buf[current->pos], line, current->alrd_read);
-		current->alrd_read++;
-		current->pos += current->alrd_read;
+		*line = extract_line(&cur->buf);
 		return (1);
 	}
 	return (0);
 }
+
