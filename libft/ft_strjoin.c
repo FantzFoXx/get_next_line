@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/26 12:40:34 by udelorme          #+#    #+#             */
-/*   Updated: 2015/11/28 17:41:02 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/01/05 11:28:32 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_strjoin(const char *s1, const char *s2)
 
 	len = ft_strlen(s1) + ft_strlen(s2);
 	new_str = ft_strnew(len);
+	if (!new_str)
+		return (NULL);
 	i = -1;
 	while (s1[++i] != 0)
 		new_str[i] = s1[i];

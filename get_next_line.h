@@ -6,14 +6,14 @@
 /*   By: udelorme <udelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/17 15:50:39 by udelorme          #+#    #+#             */
-/*   Updated: 2015/12/23 19:03:24 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/01/05 12:21:16 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 10
+# define BUFF_SIZE 3
 # define ERR_RET -1
 
 # include <unistd.h>
