@@ -88,19 +88,13 @@ static t_file	*find_file(t_file **file, int fd)
 return (line);
 }
 */
-static char		*extract_line(char **buffer, int size_read)
+static int		extract_line(char **buffer, char **line)
 {
 	int		i;
 	int		size_line;
-	char	*line;
+	//char	*line;
 	char	*new_buf;
 
-
-	size_read *=2;
-	size_read /=2;
-	//ft_putendl("####### BUFFER ########");
-	//ft_trace(*buffer);
-	//ft_putendl("#######################");
 	size_line = 0;
 	while (buffer[0][size_line] != 0)
 	{
@@ -108,20 +102,17 @@ static char		*extract_line(char **buffer, int size_read)
 		if (buffer[0][size_line] == '\n')
 			break ;
 	}
-	//ft_nbrtrace(size_line);
-	line = ft_strnew(size_line);
+	*line = ft_strnew(size_line);
 	i = -1;
 	while (++i < size_line)
-		line[i] = buffer[0][i];
+		line[0][i] = buffer[0][i];
 	new_buf = ft_strsub(*buffer, size_line + 1,
 			(ft_strlen(*buffer) - i));
 	free(*buffer);
 	*buffer = new_buf;
-
-	//ft_putendl("####### BUFFER 2 ########");
-	//ft_trace(*buffer);
-	//ft_putendl("#########################");
-	return (line);
+	if (!ft_strlen(*line))
+		return (0);
+	return (1);
 }
 
 static char		*realloc_buffer(char **s1, char *s2)
@@ -144,6 +135,7 @@ int				get_next_line(int const fd, char **line)
 
 	cur = find_file(&file, fd);
 	if (!ft_strchr(cur->buf, '\n'))
+	{
 		while ((cur->read = read(cur->fd, cur->tmp, BUFF_SIZE))
 				&& cur->read != (0 ^ -1))
 		{
@@ -155,15 +147,10 @@ int				get_next_line(int const fd, char **line)
 			if (ft_strchr(cur->tmp, '\n'))
 				break ;
 		}
-	//ft_putendl("####### BUFFER BEFORE ########");
-	//ft_trace(cur->buf);
-	//ft_putendl("#######################");
+	}
 	if (cur->read == -1 || line == NULL)
 		return (ERR_RET);
 	if (ft_strlen(cur->buf) != 0)
-	{
-		*line = extract_line(&cur->buf, cur->read);
-		return (1);
-	}
+		return(extract_line(&cur->buf, line));
 	return (0);
 }
