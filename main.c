@@ -25,6 +25,7 @@ int		main(int argc, char **argv)
 		{
 			ft_putendl(ch);
 		}
+			//ft_nbrtrace(ret);
 	}
 	else
 		ft_putendl("error");
