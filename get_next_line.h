@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # define BUFF_SIZE 10
-# define ERR_RET -1
+# define ERR_RET -
 
 # include <unistd.h>
 # include <stdlib.h>

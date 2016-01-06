@@ -88,19 +88,18 @@ static t_file	*find_file(t_file **file, int fd)
 return (line);
 }
 */
-static int		extract_line(char **buffer, char **line)
+static int		extract_line(char **buffer, int read, char **line)
 {
 	int		i;
 	int		size_line;
-	//char	*line;
 	char	*new_buf;
 
 	size_line = 0;
 	while (buffer[0][size_line] != 0)
 	{
-		size_line++;
 		if (buffer[0][size_line] == '\n')
 			break ;
+		size_line++;
 	}
 	*line = ft_strnew(size_line);
 	i = -1;
@@ -110,9 +109,18 @@ static int		extract_line(char **buffer, char **line)
 			(ft_strlen(*buffer) - i));
 	free(*buffer);
 	*buffer = new_buf;
-	if (!ft_strlen(*line))
+	//ft_nbrtrace(ft_strlen(*buffer));
+	//ft_trace(*buffer);
+	if (ft_strlen(*buffer) > (size_t)0 && read != 0)
+	{
+		return (1);
+	}
+	else if (ft_strlen(*buffer) == (size_t)0 && read == 0)
 		return (0);
-	return (1);
+	//ft_putstr(*buffer);
+	//if ((ft_strlen(*buffer) > (size_t)size_line) || (read != 0))
+	//	return (1);
+	return (0);
 }
 
 static char		*realloc_buffer(char **s1, char *s2)
@@ -120,6 +128,7 @@ static char		*realloc_buffer(char **s1, char *s2)
 	char *new;
 
 	new = ft_strjoin(*s1, s2);
+	//ft_trace(new);
 	if (!new)
 		return (NULL);
 	free(*s1);
@@ -134,11 +143,12 @@ int				get_next_line(int const fd, char **line)
 	char			*buf_cpy;
 
 	cur = find_file(&file, fd);
-	if (!ft_strchr(cur->buf, '\n'))
+	if (!ft_strchr(cur->buf, '\n') || !ft_strlen(cur->buf))
 	{
 		while ((cur->read = read(cur->fd, cur->tmp, BUFF_SIZE))
 				&& cur->read != (0 ^ -1))
 		{
+
 			cur->tmp[cur->read] = 0;
 			buf_cpy = cur->buf;
 			if (!(realloc_buffer(&buf_cpy, cur->tmp)))
@@ -148,9 +158,11 @@ int				get_next_line(int const fd, char **line)
 				break ;
 		}
 	}
-	if (cur->read == -1 || line == NULL)
+	//ft_nbrtrace(cur->read);
+	if (cur->read == -1 || !line)
 		return (ERR_RET);
+	ft_trace(cur->buf);
 	if (ft_strlen(cur->buf) != 0)
-		return(extract_line(&cur->buf, line));
+		return(extract_line(&cur->buf, cur->read, line));
 	return (0);
 }
