@@ -1,6 +1,7 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 int		main(int argc, char **argv)
 {
@@ -33,8 +34,8 @@ int		main(int argc, char **argv)
 			//get_next_line(fd2, &ch2);
 			//ft_putendl(ch2);
 		}
-			ft_putendl(ch);
-			ft_nbrtrace(ret);
+			//ft_putendl(ch);
+			//`ft_nbrtrace(ret);
 	}
 	else
 		ft_putendl("error");
