@@ -6,7 +6,7 @@
 #    By: udelorme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/26 17:09:04 by udelorme          #+#    #+#              #
-#    Updated: 2016/01/07 11:32:08 by udelorme         ###   ########.fr        #
+#    Updated: 2016/01/07 11:42:48 by udelorme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,9 +90,7 @@ $(NAME) :
 	mv $(OBJ) $(OBJREP)
 
 clean :
-	find $(OBJREP) -type f -not -name "$(OBJREP)." -exec echo {} \;
-	mkdir $(OBJREP)
-	touch $(OBJREP).track
+	cd $(OBJREP) && rm -f $(OBJ)
 
 fclean : clean
 	rm -rf $(NAME)
