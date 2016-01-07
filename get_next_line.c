@@ -6,7 +6,7 @@
 /*   By: udelorme <udelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/17 15:32:02 by udelorme          #+#    #+#             */
-/*   Updated: 2016/01/06 19:59:28 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/01/07 09:59:01 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static int		extract_line(char **buffer, int read, char **line)
 	new_buf = ft_strsub(*buffer, size_line + 1,
 			(ft_strlen(*buffer) - size_line));
 	free(*buffer);
-	*buffer = (char*)malloc((ft_strlen(new_buf) + 1) * sizeof(char));
+	//*buffer = (char*)malloc((ft_strlen(new_buf) + 1) * sizeof(char));
+	*buffer = ft_strnew(ft_strlen(new_buf));
 	ft_strcpy(*buffer, new_buf);
 	free(new_buf);
 	return (ret);

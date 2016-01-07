@@ -6,12 +6,15 @@
 #    By: udelorme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/26 17:09:04 by udelorme          #+#    #+#              #
-#    Updated: 2015/12/04 20:01:09 by udelorme         ###   ########.fr        #
+#    Updated: 2016/01/07 10:41:54 by udelorme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+CC = gcc
 NAME = libft.a
 BIN = exec
+INCREP = includes/
+OBJREP = obj/
 FLAGS = -Wall -Werror -Wextra
 SRC =	ft_isalpha.c  	\
 		ft_memccpy.c  	\
@@ -77,78 +80,18 @@ SRC =	ft_isalpha.c  	\
 		ft_lstdelone.c	\
 		ft_lstdel.c		\
 
-OBJ =	ft_isalpha.o   	\
-		ft_memccpy.o  	\
-		ft_memmove.o  	\
-		ft_strcat.o   	\
-		ft_strdel.o  	\
-		ft_strjoin.o  	\
-		ft_strncat.o  	\
-		ft_strnstr.o  	\
-		ft_strtrim.o  	\
-		ft_isascii.o   	\
-		ft_memchr.o   	\
-		ft_memset.o    	\
-		ft_strchr.o    	\
-		ft_strdup.o		\
-		ft_strlcat.o   	\
-		ft_strncmp.o	\
-		ft_strrchr.o 	\
-		ft_tolower.o	\
-		ft_atoi.o 		\
-		ft_isdigit.o 	\
-		ft_memcmp.o 	\
-		ft_putchar.o	\
-		ft_strclr.o  	\
-		ft_strequ.o 	\
-		ft_strlen.o 	\
-		ft_strncpy.o 	\
-		ft_strsplit.o 	\
-		ft_toupper.o	\
-		ft_bzero.o  	\
-		ft_isprint.o	\
-		ft_memcpy.o  	\
-		ft_putnbr.o  	\
-		ft_trace.o  	\
-		ft_nbrtrace.o  	\
-		ft_strcmp.o  	\
-		ft_striter.o  	\
-		ft_strmap.o 	\
-		ft_strnequ.o 	\
-		ft_strstr.o 	\
-		ft_wordcount.o	\
-		ft_isalnum.o 	\
-		ft_memalloc.o 	\
-		ft_memdel.o 	\
-		ft_putstr.o   	\
-		ft_strcpy.o 	\
-		ft_striteri.o	\
-		ft_strmapi.o 	\
-		ft_strnew.o  	\
-		ft_strsub.o		\
-		ft_putendl.o	\
-		ft_putchar_fd.o	\
-		ft_putstr_fd.o	\
-		ft_putendl_fd.o	\
-		ft_itoa.o		\
-		ft_putnbr_fd.o	\
-		ft_lstnew.o		\
-		ft_lstadd.o		\
-		ft_lstpush.o	\
-		ft_lstiter.o	\
-		ft_lstmap.o		\
-		ft_lstdup.o		\
-		ft_lstdelone.o	\
-		ft_lstdel.o		\
+OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
 
 $(NAME) :
-	gcc $(FLAGS) -c $(SRC)
+	$(CC) $(FLAGS) -c $(SRC) -I $(INCREP)
 	ar rc $(NAME) $(OBJ)
+	mv $(OBJ) $(OBJREP)
 
 clean :
-	rm -rf $(OBJ)
+	rm -rf $(OBJREP)
+	mkdir $(OBJREP)
 
 fclean : clean
 	rm -rf $(NAME)
