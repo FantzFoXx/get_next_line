@@ -73,24 +73,20 @@ static int		extract_line(char **buffer, int read, char **line)
 	new_buf = ft_strsub(*buffer, size_line + 1,
 			(ft_strlen(*buffer) - size_line));
 	free(*buffer);
-	*buffer = ft_strnew(ft_strlen(new_buf));
-	ft_strcpy(*buffer, new_buf);
-	free(new_buf);
+	*buffer = new_buf;
 	return (ret);
 }
 
-static char		*realloc_buffer(char **s1, char *s2)
+static int		realloc_buffer(char **s1, char *s2)
 {
 	char *new;
 
 	new = ft_strjoin(*s1, s2);
 	if (!new)
-		return (NULL);
+		return (0);
 	free(*s1);
-	*s1 = ft_strnew(ft_strlen(new));
-	ft_strcpy(*s1, new);
-	free(new);
-	return (*s1);
+	*s1 = new;
+	return (1);
 }
 
 int				get_next_line(int const fd, char **line)
