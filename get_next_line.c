@@ -6,7 +6,7 @@
 /*   By: udelorme <udelorme@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/17 15:32:02 by udelorme          #+#    #+#             */
-/*   Updated: 2016/01/07 12:53:42 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/01/12 11:22:28 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int				get_next_line(int const fd, char **line)
 	static t_file	*file = NULL;
 	t_file			*cur;
 
+	if (BUFF_SIZE < 0)
+		return (ERR_RET);
 	cur = find_file(&file, fd);
 	if (!ft_strchr(cur->buf, '\n'))
 		while ((cur->read = read(cur->fd, cur->tmp, BUFF_SIZE))
